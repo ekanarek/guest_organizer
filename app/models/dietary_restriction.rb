@@ -1,0 +1,2 @@
+class DietaryRestriction < ApplicationRecord
+end
