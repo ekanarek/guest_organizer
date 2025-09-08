@@ -1,6 +1,6 @@
 class Guest < ApplicationRecord
   belongs_to :user 
-  belongs_to :table 
+  belongs_to :table, optional: true 
   has_many :guest_dietary_restrictions 
   has_many :dietary_restrictions, through: :guest_dietary_restrictions 
 
