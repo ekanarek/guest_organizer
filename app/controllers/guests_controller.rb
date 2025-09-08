@@ -3,10 +3,4 @@ class GuestsController < ApplicationController
 
   def index 
   end
-
-  private 
-
-  def require_login 
-    return head(:forbidden) unless session.include? :user_id 
-  end
 end
