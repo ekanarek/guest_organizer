@@ -1,4 +1,5 @@
 <h1>All Guests</h1>
+<p><%= link_to "Create a guest", new_guest_path %>
 <% @guests.each do |guest| %>
   <p><%= guest.name %></p>
 <% end %>
