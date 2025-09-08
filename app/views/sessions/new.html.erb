@@ -1,3 +1,5 @@
+<h1>Log In</h1>
+
 <%= form_with url: login_path, method: :post, local: true do %> 
   <div> 
     <%= label_tag :username %>
@@ -9,3 +11,5 @@
   </div> 
   <%= submit_tag "Login" %> 
 <% end %>
+
+<p><%= link_to "Don't have an account? Create one here!", signup_path %></p>
