@@ -1,6 +1,9 @@
 class GuestsController < ApplicationController 
   before_action :require_login 
 
+  def index 
+  end
+
   private 
 
   def require_login 
