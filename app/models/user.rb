@@ -4,4 +4,5 @@ class User < ApplicationRecord
 
   has_many :guests, dependent: :destroy 
   has_many :tables, dependent: :destroy 
+  has_many :dietary_restrictions, dependent: :destroy 
 end
