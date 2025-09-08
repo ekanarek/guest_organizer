@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_08_163712) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_08_175440) do
   create_table "dietary_restrictions", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_dietary_restrictions_on_user_id"
   end
 
   create_table "guest_dietary_restrictions", force: :cascade do |t|
@@ -31,6 +33,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_163712) do
     t.string "table_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_guests_on_user_id"
   end
 
   create_table "tables", force: :cascade do |t|
@@ -39,6 +43,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_163712) do
     t.integer "seats_taken"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_tables_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,4 +53,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_163712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "dietary_restrictions", "users"
+  add_foreign_key "guests", "users"
+  add_foreign_key "tables", "users"
 end
