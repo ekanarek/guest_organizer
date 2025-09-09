@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_09_130132) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_151851) do
   create_table "dietary_restrictions", force: :cascade do |t|
     t.string "name"
     t.string "description"

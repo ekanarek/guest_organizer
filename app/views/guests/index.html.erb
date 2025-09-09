@@ -1,5 +1,20 @@
-<h1>All Guests</h1>
+<h1>Guests Homepage</h1>
 <p><%= link_to "Create a guest", new_guest_path %>
-<% @guests.each do |guest| %>
-  <p><%= guest.name %></p>
+
+<% if @unassigned_guests.any? %> 
+  <h3>Guests With No Table Assignment</h3> 
+  <ul>
+    <% @unassigned_guests.each do |guest| %>
+      <li><%= link_to guest.name, guest_path(guest) %></li> 
+    <% end %> 
+  </ul>
+<% end %>
+
+<% if @all_guests.any? %>
+  <h3>All Guests</h3>
+  <ul>
+    <% @all_guests.each do |guest| %>
+      <li><%= link_to guest.name, guest_path(guest) %></li>
+    <% end %>
+  </ul>
 <% end %>
