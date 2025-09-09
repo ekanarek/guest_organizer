@@ -1,7 +1,7 @@
 class GuestsController < ApplicationController 
   before_action :require_login 
   before_action :set_dietary_restrictions, only: [:new, :create, :edit, :update] 
-  before_action :set_guest, only: [:show, :edit, :update]
+  before_action :set_guest, only: [:show, :edit, :update, :destroy]
 
   def index 
     @guests = current_user.guests 
@@ -35,6 +35,15 @@ class GuestsController < ApplicationController
       flash.now[:alert] = "Error updating guest" 
       render :edit, status: :unprocessable_entity 
     end
+  end
+
+  def destroy 
+    if @guest.table.present? 
+      @guest.table.decrement!(:seats_taken) 
+    end 
+
+    @guest.destroy 
+    redirect_to root_path, notice: "Guest deleted!" 
   end
 
   private 

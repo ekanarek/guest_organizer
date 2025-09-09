@@ -19,3 +19,5 @@
 
 <%= link_to "Edit this guest", edit_guest_path(@guest) %><br>
 <%= link_to "Back to guests index", root_path %>
+
+<%= button_to "Delete Guest", guest_path(@guest), method: :delete, data: { turbo_confirm: "Are you sure? This cannot be undone." } %>
