@@ -1,13 +1,10 @@
 class GuestsController < ApplicationController 
   before_action :require_login 
-  before_action :set_dietary_restrictions, only: [:new, :create] 
+  before_action :set_dietary_restrictions, only: [:new, :create, :edit, :update] 
+  before_action :set_guest, only: [:show, :edit, :update]
 
   def index 
     @guests = current_user.guests 
-  end
-
-  def show 
-    @guest = Guest.find(params[:id]) 
   end
 
   def new 
@@ -16,14 +13,6 @@ class GuestsController < ApplicationController
 
   def create 
     @guest = current_user.guests.build(guest_params)
-
-    if params[:new_dietary_restriction_name].present? 
-      custom_restriction = current_user.dietary_restrictions.create(
-        name: params[:new_dietary_restriction_name],
-        description: params[:new_dietary_restriction_description]
-      )
-      @guest.dietary_restrictions << custom_restriction if custom_restriction.persisted? 
-    end
 
     if @guest.save 
       if @guest.table.present? 
@@ -37,10 +26,15 @@ class GuestsController < ApplicationController
     end
   end
 
-  def edit 
-  end 
-
   def update 
+    handle_custom_restriction(@guest) 
+
+    if @guest.update(guest_params) 
+      redirect_to guest_path(@guest), notice: "Guest updated!" 
+    else 
+      flash.now[:alert] = "Error updating guest" 
+      render :edit, status: :unprocessable_entity 
+    end
   end
 
   private 
@@ -51,5 +45,19 @@ class GuestsController < ApplicationController
 
   def set_dietary_restrictions 
     @dietary_restrictions = DietaryRestriction.where(user_id: [nil, current_user.id]) 
+  end
+
+  def set_guest 
+    @guest = current_user.guests.find(params[:id]) 
+  end 
+
+  def handle_custom_restriction(guest)
+    if params[:new_dietary_restriction_name].present? 
+      custom_restriction = current_user.dietary_restrictions.create(
+        name: params[:new_dietary_restriction_name],
+        description: params[:new_dietary_restriction_description]
+      )
+      guest.dietary_restrictions << custom_restriction if custom_restriction.persisted? 
+    end
   end
 end
