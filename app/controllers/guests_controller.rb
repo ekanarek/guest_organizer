@@ -6,6 +6,10 @@ class GuestsController < ApplicationController
     @guests = current_user.guests 
   end
 
+  def show 
+    @guest = Guest.find(params[:id]) 
+  end
+
   def new 
     @guest = Guest.new(user: current_user)
   end
