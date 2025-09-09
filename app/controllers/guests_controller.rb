@@ -4,7 +4,8 @@ class GuestsController < ApplicationController
   before_action :set_guest, only: [:show, :edit, :update, :destroy]
 
   def index 
-    @guests = current_user.guests 
+    @unassigned_guests = current_user.guests.unassigned
+    @all_guests = current_user.guests 
   end
 
   def new 

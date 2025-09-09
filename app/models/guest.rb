@@ -6,4 +6,6 @@ class Guest < ApplicationRecord
 
   validates :user, presence: true 
   validates :name, presence: true 
+
+  scope :unassigned, -> { where(table_id: nil) }
 end
