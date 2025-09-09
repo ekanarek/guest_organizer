@@ -1,0 +1,45 @@
+<h1>Add a Guest</h1>
+
+<% if @guest.errors.any? %>
+  <div style="color: red;">
+    <h2><%= pluralize(@guest.errors.count, "error") %> prevented this guest from being saved:</h2>
+    <ul>
+      <% @guest.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @guest, local: true do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :age %>
+    <%= f.number_field :age %>
+  </div>
+
+  <div>
+    <h3>Dietary Restrictions</h3>
+    <% @dietary_restrictions.each do |restriction| %>
+      <%= check_box_tag "guest[dietary_restriction_ids][]", restriction.id, @guest.dietary_restrictions.include?(restriction) %>
+      <%= restriction.name %>
+    <% end %>
+    <p>Add a new dietary restriction:</p>
+    <%= text_field_tag :new_dietary_restriction_name %>
+    <%= text_field_tag :new_dietary_restriction_description, nil, placeholder: "Optional description" %>
+  </div>
+
+  <div>
+    <%= f.label :table_id, "Assign to Table (optional)" %>
+    <%= f.collection_select :table_id, current_user.tables, :id, :name, include_blank: true %>
+  </div>
+
+  <div>
+    <%= f.submit "Save Guest" %> 
+  </div>
+
+<% end %>
