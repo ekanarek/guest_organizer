@@ -1,5 +1,6 @@
 class GuestsController < ApplicationController 
   before_action :require_login 
+  before_action :set_dietary_restrictions, only: [:new, :create] 
 
   def index 
     @guests = current_user.guests 
@@ -7,7 +8,6 @@ class GuestsController < ApplicationController
 
   def new 
     @guest = Guest.new(user: current_user)
-    @dietary_restrictions = DietaryRestriction.where(user_id: [nil, current_user.id])
   end
 
   def create 
@@ -37,5 +37,9 @@ class GuestsController < ApplicationController
 
   def guest_params 
     params.require(:guest).permit(:name, :age, :table_id, dietary_restriction_ids: []) 
+  end
+
+  def set_dietary_restrictions 
+    @dietary_restrictions = DietaryRestriction.where(user_id: [nil, current_user.id]) 
   end
 end
