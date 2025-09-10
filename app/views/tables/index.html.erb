@@ -1,0 +1,7 @@
+<h1>All Tables</h1>
+
+<ul>
+  <% @tables.each do |table| %>
+    <li><%= table.name %> - <%= table.seats_taken %> of <%= table.seat_capacity %> seats taken</li>
+  <% end %>
+</ul>
