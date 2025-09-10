@@ -1,20 +1,36 @@
-<h1>Guests Homepage</h1>
-<p><%= link_to "Create a guest", new_guest_path %>
+<% if @table %>
+  <h1>Guests at <%= @table.name %></h1>
 
-  <% if @unassigned_guests.any? %>
-    <h3>Guests With No Table Assignment</h3>
+  <% if @guests.any? %>
     <ul>
-      <% @unassigned_guests.each do |guest| %>
-        <li><%= link_to guest.name, guest_path(guest) %></li>
+      <% @guests.each do |guest| %>
+        <li><%= link_to guest.name, guest_path(guest) %> (age <%= guest.age %>)</li>
       <% end %>
     </ul>
+  <% else %>
+    <p>No guests assigned to this table yet.</p>
   <% end %>
 
-  <% if @all_guests.any? %>
-    <h3>All Guests</h3>
-    <ul>
-      <% @all_guests.each do |guest| %>
-        <li><%= link_to guest.name, guest_path(guest) %></li>
-      <% end %>
-    </ul>
-  <% end %>
+  <p><%= link_to "Back to Tables", tables_path %></p>
+
+<% else %>
+  <h1>Guests Homepage</h1>
+  <p><%= link_to "Create a guest", new_guest_path %>
+
+    <% if @unassigned_guests.any? %>
+      <h3>Guests With No Table Assignment</h3>
+      <ul>
+        <% @unassigned_guests.each do |guest| %>
+          <li><%= link_to guest.name, guest_path(guest) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if @all_guests.any? %>
+      <h3>All Guests</h3>
+      <ul>
+        <% @all_guests.each do |guest| %>
+          <li><%= link_to guest.name, guest_path(guest) %></li>
+        <% end %>
+      </ul>
+    <% end %>
