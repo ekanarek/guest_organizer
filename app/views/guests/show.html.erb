@@ -10,11 +10,11 @@
 <% if @guest.dietary_restrictions.size > 0 %>
   <ul>
     <% @guest.dietary_restrictions.each do |dr| %>
-      <li><%= dr.name %></li> 
-    <% end %> 
+      <li><%= dr.name %></li>
+    <% end %>
   </ul>
-<% else %> 
-  <p>This guest has no dietary restrictions.</p> 
+<% else %>
+  <p>This guest has no dietary restrictions.</p>
 <% end %>
 
 <%= link_to "Edit this guest", edit_guest_path(@guest) %><br>
