@@ -4,8 +4,13 @@ class GuestsController < ApplicationController
   before_action :set_guest, only: %i[show edit update destroy]
 
   def index
-    @unassigned_guests = current_user.guests.unassigned
-    @all_guests = current_user.guests
+    if params[:table_id]
+      @table = current_user.tables.find(params[:table_id])
+      @guests = @table.guests
+    else
+      @unassigned_guests = current_user.guests.unassigned
+      @all_guests = current_user.guests
+    end
   end
 
   def new

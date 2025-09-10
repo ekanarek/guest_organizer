@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"
 
+  resources :tables do 
+    resources :guests, only: [:index]
+  end
+
   resources :guests, only: [:new, :create, :show, :edit, :update, :destroy]
-  resources :tables
 end
