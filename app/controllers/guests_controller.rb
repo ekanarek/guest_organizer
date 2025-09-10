@@ -21,8 +21,7 @@ class GuestsController < ApplicationController
     @guest = current_user.guests.build(guest_params)
 
     if @guest.save
-      @guest.table.increment!(:seats_taken) if @guest.table.present?
-
+      handle_seats_taken_increment(@guest)
       redirect_to root_path, notice: "Guest added!"
     else
       flash.now[:alert] = "Error creating guest"
@@ -34,6 +33,7 @@ class GuestsController < ApplicationController
     handle_custom_restriction(@guest)
 
     if @guest.update(guest_params)
+      handle_seats_taken_increment(@guest)
       redirect_to guest_path(@guest), notice: "Guest updated!"
     else
       flash.now[:alert] = "Error updating guest"
@@ -70,5 +70,9 @@ private
       description: params[:new_dietary_restriction_description]
     )
     guest.dietary_restrictions << custom_restriction if custom_restriction.persisted?
+  end
+
+  def handle_seats_taken_increment(guest)
+    guest.table.increment!(:seats_taken) if guest.table.present?
   end
 end

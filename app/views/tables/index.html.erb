@@ -3,6 +3,8 @@
 
   <ul>
     <% @tables.each do |table| %>
-      <li><%= table.name %> - <%= table.seats_taken %> of <%= table.seat_capacity %> seats taken</li>
+      <li><%= link_to table.name, table_guests_path(table) %> - <%= table.seats_taken %> of <%= table.seat_capacity %> seats taken</li>
     <% end %>
   </ul>
+
+  <p><%= link_to "Back to guests index", root_path %>
