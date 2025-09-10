@@ -82,7 +82,15 @@ private
   end
 
   def handle_seats_taken_increment(guest)
-    guest.table.increment!(:seats_taken) if guest.table.present?
+    return unless guest.saved_change_to_table_id?
+
+    old_table_id, new_table_id = guest.saved_change_to_table_id
+    old_table = Table.find_by(id: old_table_id)
+    new_table = Table.find_by(id: new_table_id)
+
+    old_table&.decrement!(:seats_taken)
+
+    new_table&.increment!(:seats_taken)
   end
 
   def build_guest_from_params
