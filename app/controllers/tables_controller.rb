@@ -6,7 +6,7 @@ class TablesController < ApplicationController
   end
 
   def new
-    @table = @table.new(user: current_user)
+    @table = Table.new(user: current_user)
   end
 
   def create

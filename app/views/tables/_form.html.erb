@@ -1,0 +1,27 @@
+<% if @table.errors.any? %>
+  <div style="color: red;">
+    <h2><%= pluralize(@table.errors.count, "error") %> prevented this table from being saved:</h2>
+    <ul>
+      <% @table.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @table, local: true do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :seat_capacity %>
+    <%= f.number_field :seat_capacity %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+
+<% end %>
