@@ -27,6 +27,7 @@ class GuestsController < ApplicationController
 
     if @guest.save
       handle_seats_taken_increment(@guest)
+      handle_custom_restriction(@guest)
       if @table
         redirect_to table_guests_path(@table), notice: "Guest added!"
       else
@@ -39,9 +40,8 @@ class GuestsController < ApplicationController
   end
 
   def update
-    handle_custom_restriction(@guest)
-
     if @guest.update(guest_params)
+      handle_custom_restriction(@guest)
       handle_seats_taken_increment(@guest)
       redirect_to guest_path(@guest), notice: "Guest updated!"
     else
@@ -74,11 +74,11 @@ private
   def handle_custom_restriction(guest)
     return unless params[:new_dietary_restriction_name].present?
 
-    custom_restriction = current_user.dietary_restrictions.create(
+    restriction = current_user.dietary_restrictions.create(
       name: params[:new_dietary_restriction_name],
       description: params[:new_dietary_restriction_description]
     )
-    guest.dietary_restrictions << custom_restriction if custom_restriction.persisted?
+    guest.dietary_restrictions << restriction if restriction.persisted?
   end
 
   def handle_seats_taken_increment(guest)
