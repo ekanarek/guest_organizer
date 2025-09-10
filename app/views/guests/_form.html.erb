@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<%= form_with model: @guest, local: true do |f| %>
+<%= form_with model: [@table, @guest].compact, local: true do |f| %>
   <div>
     <%= f.label :name %>
     <%= f.text_field :name %>
@@ -31,10 +31,12 @@
     <%= text_field_tag :new_dietary_restriction_description, nil, placeholder: "Optional description" %>
   </div>
 
-  <div>
-    <%= f.label :table_id, "Assign to Table (optional)" %>
-    <%= f.collection_select :table_id, current_user.tables, :id, :name, include_blank: true %>
-  </div>
+  <% unless @table %>
+    <div>
+      <%= f.label :table_id, "Assign to Table (optional)" %>
+      <%= f.collection_select :table_id, current_user.tables, :id, :name, include_blank: true %>
+    </div>
+  <% end %>
 
   <div>
     <%= f.submit %>

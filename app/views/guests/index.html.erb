@@ -1,6 +1,8 @@
 <% if @table %>
   <h1>Guests at <%= @table.name %></h1>
 
+  <p><%= link_to "Add a new guest to this table", new_table_guest_path(@table) %></p>
+
   <% if @guests.any? %>
     <ul>
       <% @guests.each do |guest| %>

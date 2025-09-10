@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
 
   resources :tables do 
-    resources :guests, only: [:index]
+    resources :guests, only: [:index, :new, :create]
   end
 
   resources :guests, only: [:new, :create, :show, :edit, :update, :destroy]

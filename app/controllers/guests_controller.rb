@@ -14,15 +14,24 @@ class GuestsController < ApplicationController
   end
 
   def new
-    @guest = Guest.new(user: current_user)
+    if params[:table_id]
+      @table = current_user.tables.find(params[:table_id])
+      @guest = @table.guests.build(user: current_user)
+    else
+      @guest = Guest.new(user: current_user)
+    end
   end
 
   def create
-    @guest = current_user.guests.build(guest_params)
+    @guest = build_guest_from_params
 
     if @guest.save
       handle_seats_taken_increment(@guest)
-      redirect_to root_path, notice: "Guest added!"
+      if @table
+        redirect_to table_guests_path(@table), notice: "Guest added!"
+      else
+        redirect_to root_path, notice: "Guest added!"
+      end
     else
       flash.now[:alert] = "Error creating guest"
       render :new, status: :unprocessable_entity
@@ -74,5 +83,14 @@ private
 
   def handle_seats_taken_increment(guest)
     guest.table.increment!(:seats_taken) if guest.table.present?
+  end
+
+  def build_guest_from_params
+    if params[:table_id]
+      @table = current_user.tables.find(params[:table_id])
+      @guest = @table.guests.build(guest_params.merge(user: current_user))
+    else
+      @guest = current_user.guests.build(guest_params)
+    end
   end
 end
