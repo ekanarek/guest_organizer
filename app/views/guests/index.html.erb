@@ -1,5 +1,24 @@
-<h1>Guests Homepage</h1>
-<p><%= link_to "Create a guest", new_guest_path %>
+<% if @table %>
+  <h1>Guests at <%= @table.name %></h1>
+
+  <p><%= link_to "Add a new guest to this table", new_table_guest_path(@table) %></p>
+
+  <% if @guests.any? %>
+    <ul>
+      <% @guests.each do |guest| %>
+        <li><%= link_to guest.name, guest_path(guest) %> (age <%= guest.age %>)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No guests assigned to this table yet.</p>
+  <% end %>
+
+  <p><%= link_to "Back to Tables", tables_path %></p>
+
+<% else %>
+  <h1>Guests Homepage</h1>
+  <p><%= link_to "Create a guest", new_guest_path %></p>
+  <p><%= link_to "View tables index", tables_path %></p>
 
   <% if @unassigned_guests.any? %>
     <h3>Guests With No Table Assignment</h3>
@@ -18,3 +37,4 @@
       <% end %>
     </ul>
   <% end %>
+<% end %>
