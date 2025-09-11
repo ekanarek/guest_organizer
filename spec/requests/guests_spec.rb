@@ -26,5 +26,11 @@ RSpec.describe "Guests", type: :request do
       follow_redirect! 
       expect(flash[:notice]).to eq("Guest added!")
     end
+
+    it "renders new on invalid params" do 
+      post "/guests", params: { guest: { name: "", age: nil } }
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(flash[:alert]).to eq("Error creating guest")
+    end
   end
 end
