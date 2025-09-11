@@ -9,7 +9,7 @@ RSpec.describe "Users", type: :request do
 
       expect(response).to redirect_to(root_path)
       follow_redirect!
-      expect(response.body).to include("Account created!")
+      expect(flash[:notice]).to include("Account created!")
     end
 
     it "renders new when invalid" do 
