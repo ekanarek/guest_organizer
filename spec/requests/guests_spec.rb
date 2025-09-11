@@ -33,4 +33,20 @@ RSpec.describe "Guests", type: :request do
       expect(flash[:alert]).to eq("Error creating guest")
     end
   end
+
+  describe "DELETE /guests/:id" do 
+    it "deletes the guest and decrements seats_taken" do 
+      guest = create(:guest, user: user, table: table)
+      table.update!(seats_taken: 1)
+
+      expect {
+        delete "/guests/#{guest.id}"
+      }.to change(user.guests, :count).by(-1)
+
+      expect(table.reload.seats_taken).to eq(0)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(flash[:notice]).to eq("Guest deleted!")
+    end
+  end
 end
