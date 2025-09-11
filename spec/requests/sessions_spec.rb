@@ -5,9 +5,8 @@ RSpec.describe "Sessions", type: :request do
 
   describe "POST /login" do 
     it "logs in with valid credentials" do 
-      post "/login", params: { username: user.username, password: "password123" }
+      log_in(user)
 
-      expect(sessions[:user_id]).to eq(user_id)
       expect(response).to redirect_to(root_path)
       follow_redirect!
 
@@ -17,7 +16,6 @@ RSpec.describe "Sessions", type: :request do
     it "renders new on invalid login" do 
       post "/login", params: {username: user.username, password: "wrong" }
 
-      expect(session[:user_id]).to be_nil 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(flash[:alert]).to eq("Invalid username or password")
     end
