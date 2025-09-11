@@ -3,4 +3,6 @@ class DietaryRestriction < ApplicationRecord
 
   has_many :guest_dietary_restrictions
   has_many :guests, through: :guest_dietary_restrictions
+
+  validates :name, presence: true
 end
